@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 import { NupModule } from './nup/nup.module';
 
 @Module({
@@ -11,4 +12,8 @@ import { NupModule } from './nup/nup.module';
     NupModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}
