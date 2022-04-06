@@ -144,7 +144,7 @@ describe(UserService.name, () => {
         })
         .catch((e) => {
           expect(e).toBeInstanceOf(BadRequestException);
-          expect(e.message).toEqual('`userId` é obrigatório');
+          expect(e.message).toEqual('`userId` is required.');
         });
     });
   });
@@ -199,7 +199,7 @@ describe(UserService.name, () => {
 
       await service.signUp(user).catch((e) => {
         expect(e).toBeInstanceOf(ConflictException);
-        expect(e.message).toEqual('Email já está em uso.');
+        expect(e.message).toEqual('Email already exists.');
       });
     });
 
@@ -209,7 +209,7 @@ describe(UserService.name, () => {
 
       await service.signUp(user).catch((e) => {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('Falha ao cadastrar usuário');
+        expect(e.message).toEqual('Failed in signup');
       });
     });
   });

@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
-import { EmailService } from 'src/modules/email/email.service';
+import { EmailService } from 'src/modules/email/services/email.service';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { PasswordService } from 'src/modules/user/services/password.service';
 import { UserService } from 'src/modules/user/services/user.service';

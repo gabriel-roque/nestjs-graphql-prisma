@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { PasswordService } from 'src/modules/user/services/password.service';
+import { ValidationService } from 'src/modules/user/services/validation.service';
 
 import { Operations } from '../enum/operations.enum';
 
@@ -76,6 +77,7 @@ describe(AuthService.name, () => {
       ],
       providers: [
         AuthService,
+        ValidationService,
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: PasswordService, useValue: mockPasswordService },
         { provide: TokenService, useValue: mockTokenService },
@@ -116,7 +118,7 @@ describe(AuthService.name, () => {
 
       await service.login(user.email, user.password).catch((e) => {
         expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.message).toEqual('Nenhum usuário encontrado.');
+        expect(e.message).toEqual('User not found.');
       });
     });
 
@@ -165,7 +167,7 @@ describe(AuthService.name, () => {
 
       await service.loginLinkAccess(mockUser.email).catch((e) => {
         expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.message).toEqual('Nenhum usuário encontrado.');
+        expect(e.message).toEqual('User not found.');
       });
     });
 
@@ -235,7 +237,7 @@ describe(AuthService.name, () => {
 
       await service.confirmEmail(invalidToken).catch((e) => {
         expect(e).toBeInstanceOf(UnauthorizedException);
-        expect(e.message).toEqual('Token inválido.');
+        expect(e.message).toEqual('Token invalid.');
       });
     });
   });
@@ -277,7 +279,7 @@ describe(AuthService.name, () => {
         .resetPassword(invalidToken, faker.internet.password())
         .catch((e) => {
           expect(e).toBeInstanceOf(UnauthorizedException),
-            expect(e.message).toEqual('Token inválido');
+            expect(e.message).toEqual('Token invalid.');
         });
     });
   });
@@ -314,7 +316,7 @@ describe(AuthService.name, () => {
 
       await service.setNewConfirmEmailToken(user.id).catch((e) => {
         expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.message).toEqual('Nenhum usuário encontrado.');
+        expect(e.message).toEqual('User not found.');
       });
     });
   });
