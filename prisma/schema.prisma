@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -10,22 +10,64 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Nup {
-  id String @id
-}
-
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email         String   @unique
+  name          String?
+  password      String
+  emailToken    String?  @map("email_token")
+  passwordToken String?  @map("password_token")
+  confirm       Boolean  @default(false)
+  isValid       Boolean  @default(false) @map("is_valid")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  userRoles      UserRoles[]
+  files          File[]      @relation("userIdFiles")
+  filesCreatedBy File[]      @relation("createdByFile")
+  fileUpdatedBy  File[]      @relation("updatedByFile")
+
+  @@unique([id, email])
+  @@map("users")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model UserRoles {
+  id Int @id @default(autoincrement())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id") @db.Uuid
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int  @map("role_id")
+
+  @@unique([userId, roleId])
+  @@map("user_role")
+}
+
+model Role {
+  id   Int     @id @default(autoincrement())
+  name String?
+
+  userRoles UserRoles[]
+  @@map("roles")
+}
+
+model File {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String
+  mimeType  String   @map("mime_type")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation("userIdFiles", fields: [userId], references: [id])
+
+  createdBy   User   @relation("createdByFile", fields: [createdById], references: [id])
+  createdById String @map("created_by") @db.Uuid
+
+  updatedBy   User?   @relation("updatedByFile", fields: [updatedById], references: [id])
+  updatedById String? @map("updated_by") @db.Uuid
+
+  @@unique([userId, id])
+  @@map("files")
 }

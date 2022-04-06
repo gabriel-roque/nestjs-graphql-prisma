@@ -10,9 +10,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# SQLite
-*.db
-
 # OS
 .DS_Store
 
@@ -35,3 +32,8 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.env
+/documentation
+email-sends/
+docker-compose.yml

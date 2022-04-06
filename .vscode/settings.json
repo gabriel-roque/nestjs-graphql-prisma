@@ -1,0 +1,43 @@
+{
+  "prettier.printWidth": 120,
+  "editor.rulers": [120],
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#ff00bf"
+  },
+  "editor.tabCompletion": "on",
+  "editor.suggest.showIcons": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.tabSize": 2,
+  "editor.autoIndent": "full",
+  "editor.detectIndentation": false,
+  "editor.trimAutoWhitespace": true,
+  "editor.formatOnSave": true,
+  "editor.colorDecorators": true,
+  "editor.cursorBlinking": "blink",
+  "editor.cursorWidth": 0,
+  "editor.minimap.enabled": true,
+  "editor.insertSpaces": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": false
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "json.format.enable": true,
+  "breadcrumbs.enabled": true,
+  "git.enabled": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.compactFolders": false,
+  "html.format.enable": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[prisma]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
+}

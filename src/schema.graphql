@@ -1,0 +1,168 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  email: String!
+  isValid: Boolean!
+  isAdmin: Boolean
+  confirm: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserPaginated {
+  edges: [UserEdge!]
+  nodes: [User!]
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+type Token {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+}
+
+type Auth {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+  user: User!
+}
+
+type File {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  mimeType: String!
+  user: User!
+  createdBy: User!
+  updatedBy: User
+}
+
+type Query {
+  listUsers(filter: FilterListUsers, order: OrderListUsers = {direction: desc, orderBy: name}, paginate: PaginationArgs = {skip: 0, take: 50}): UserPaginated!
+  me: User!
+  getUser(userId: String!): User!
+  listDocumentsUser(data: GetDocumentsInput): [File!]!
+  downloadDocument(data: DownloadDocumentInput!): String!
+}
+
+input FilterListUsers {
+  omni: String = null
+  isValid: Boolean = null
+}
+
+input OrderListUsers {
+  direction: OrderDirection!
+  orderBy: UsersOrderBy!
+}
+
+"""
+Likely likely to sort a list of items when presented with an argument `orderBy`.
+"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+"""Order by: name, email"""
+enum UsersOrderBy {
+  name
+  email
+}
+
+input PaginationArgs {
+  skip: Int!
+  take: Int!
+}
+
+input GetDocumentsInput {
+  userId: String
+}
+
+input DownloadDocumentInput {
+  userId: String!
+  documentId: String!
+}
+
+type Mutation {
+  updateStatusUser(data: UpdateStatusUserInput!): User!
+  updateUser(data: UpdateUserInput!): User!
+  changePassword(data: ChangePasswordInput!): User!
+  signup(data: SignupInput!): Auth!
+  login(data: LoginInput!): Auth!
+  loginLinkAccess(data: LoginLinkAccessInput!): Boolean!
+  refreshToken(token: String!): Token!
+  confirmEmail(token: String!): Token!
+  requestConfirmEmail(data: RequestConfirmEmailInput!): Boolean!
+  resetPassword(data: ResetPasswordInput!): Token!
+  requestResetPassword(data: RequestResetPasswordInput!): Boolean!
+  deleteDocument(data: DeleteDocumentInput!): File!
+}
+
+input UpdateStatusUserInput {
+  userId: String!
+  status: Boolean!
+}
+
+input UpdateUserInput {
+  userId: String
+  name: String
+}
+
+input ChangePasswordInput {
+  oldPassword: String!
+  newPassword: String!
+}
+
+input SignupInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input LoginLinkAccessInput {
+  email: String!
+}
+
+input RequestConfirmEmailInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+  token: String!
+}
+
+input RequestResetPasswordInput {
+  email: String!
+}
+
+input DeleteDocumentInput {
+  userId: String!
+  documentId: String!
+}
